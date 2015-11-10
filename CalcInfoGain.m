@@ -1,6 +1,6 @@
-function ig = CalcInfoGain(entropyEmoBinaryTarget, currentAU)
-    ones = countPos(currentAU);
-    zeros = length(currentAU)-pos;
+function ig = CalcInfoGain(entropyEmoBinaryTarget, EmoBinaryTarget, currentAU)
+    ones = sum(currentAU);
+    zeros = length(currentAU)-ones;
 
-    ig = entropyEmoBinaryTarget - (ones/length(currentAU))*AUOnesEntropy(entropyEmoBinaryTarget, currentAU) - (zeros/length(currentAU))*AUZerosEntropy(entropyEmoBinaryTarget, currentAU);
+    ig = entropyEmoBinaryTarget - (ones/length(currentAU))*AUOnesEntropy(EmoBinaryTarget, currentAU) - (zeros/length(currentAU))*AUZerosEntropy(EmoBinaryTarget, currentAU);
 end
