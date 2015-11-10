@@ -5,8 +5,8 @@ function index = chooseBestDecisionAttribute(originalTree, originalAUs, EmoBinar
 
     %to store information gain for all attributes (AUs) to compare them later
     width = length(originalAUs);
-    height = length(EmoBinaryTarget);
-    AUsIGs = zeros(width,1);
+    height = length(originalTree);
+    AUsIGs = zeros(height,1);
     
     for j = 1:width % traverses columns
         currentAU = originalTree(:, j);
@@ -21,7 +21,7 @@ function index = chooseBestDecisionAttribute(originalTree, originalAUs, EmoBinar
                 zeroTarget = [zeroTarget ; EmoBinaryTarget(k)];
             end
         end
-        AUsIGs(j) = BinaryTargetEntropy - (numberOnes/height)*CalcEntropy(oneTarget) - (numberZeros/height)*CalcEntropy(zeroTarget);
+        AUsIGs(j) = BinaryTargetEntropy - (numberOnes/len)*CalcEntropy(oneTarget) - (numberZeros/len)*CalcEntropy(zeroTarget);
     end
 
     bestAU = AUsIGs(1);

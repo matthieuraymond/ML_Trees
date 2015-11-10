@@ -37,8 +37,16 @@ function [EmoTree] = CreateEmoTree(originalTree, originalAUs, EmoBinaryTarget)
     %*************** CASE 3: INTERNAL NODE (NOT LEAF) *******************
     %choosing best attribute based on info gain     
     else
-        %calculate best decision attribute   
-        bestAUIndex = chooseBestDecisionAttribute(originalTree, originalAUs, EmoBinaryTarget);
+        %calculate entropy for current level/current function call
+        entropyEmoBinaryTarget = CalcEntropy(EmoBinaryTarget);
+        AUsIGs = zeros (length(originalAUs),1);
+        
+        for j = 1:length(originalAUs) % traverses columns
+            currentAU = originalTree(:, j);
+            AUsIGs(j) = CalcInfoGain(entropyEmoBinaryTarget, EmoBinaryTarget, currentAU);
+        end
+        
+        bestAUIndex = chooseBestDecisionAttribute(AUsIGs, originalAUs);
         EmoTree.op = originalAUs(bestAUIndex);
         AUcolumn = originalTree(:, bestAUIndex);
         %delete datas for the recursion
@@ -62,14 +70,11 @@ function [EmoTree] = CreateEmoTree(originalTree, originalAUs, EmoBinaryTarget)
             end
         end
         
-        LeftEmoTree = struct();
-        if (isempty(leftMatrix))
-            LeftEmoTree.class = majorityValue(EmoBinaryTarget);
-            LeftEmoTree.kids = [];
-            LeftEmoTree.op = -1;
-        else
-            LeftEmoTree = CreateEmoTree(leftMatrix, originalAUs, leftEmoBinaryTarget); % left side recursion
+        if (isempty(leftMatrix) || isempty(rightMatrix)) 
+            
         end
+        
+        LeftEmoTree = CreateEmoTree(leftMatrix, originalAUs, leftEmoBinaryTarget); % left side recursion
         
         RightEmoTree = struct();
         if (isempty(rightMatrix))

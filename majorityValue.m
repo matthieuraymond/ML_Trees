@@ -1,5 +1,5 @@
 function mode = majorityValue(vector)
-    ones = countPos(vector);
+    ones = sum(vector);
     zeros = length(vector) - ones;
     
     if ones > zeros
