@@ -36,15 +36,16 @@ function [EmoTree] = CreateEmoTree(originalTree, originalAUs, EmoBinaryTarget)
         AUsIGs = zeros (length(originalAUs),1);
         
         for j = 1:length(originalAUs) % traverses columns
-            currentAU = originalTree(1:length(originalTree), j);
+            currentAU = originalTree(:, j);
             AUsIGs(j) = CalcInfoGain(entropyEmoBinaryTarget, EmoBinaryTarget, currentAU);
         end
         
-        result = chooseBestDecisionAttribute(AUsIGs, originalAUs);
-        EmoTree.op = result.bestAU;
-        bestAU = result.AUcolumn;
-        originalAUs = result.originalAUs;
-        originalTree(result.index, :) = [];
+        bestAUIndex = chooseBestDecisionAttribute(AUsIGs, originalAUs);
+        EmoTree.op = originalAUs(bestAUIndex);
+        AUcolumn = originalTree(:, bestAUIndex);
+        %delete datas for the recursion
+        originalAUs(bestAUIndex) = []; %deleteing the AU from indexes
+        originalTree(:, bestAUIndex) = []; %deleting the AU from data
         
         % create subtrees (split)
         leftMatrix = [];
@@ -52,37 +53,32 @@ function [EmoTree] = CreateEmoTree(originalTree, originalAUs, EmoBinaryTarget)
         leftEmoBinaryTarget = [];
         rightEmoBinaryTarget = [];
         
-        % create right subtree
-        for z =1:length(bestAU)
-            if (bestAU(z) == 1)
-                rightMatrix = [rightMatrix; originalTree(z,:)];  % check syntax
-                rightEmoBinaryTarget = [rightEmoBinaryTarget; EmoBinaryTarget(z, 1)];
+        % create left and right subtree
+        for z =1:length(AUcolumn)
+            if (AUcolumn(z) == 1)
+                rightMatrix = [rightMatrix ; originalTree(z,:)];  % check syntax
+                rightEmoBinaryTarget = [rightEmoBinaryTarget ; EmoBinaryTarget(z)];
+            else
+                leftMatrix = [leftMatrix ; originalTree(z,:)];  % check syntax
+                leftEmoBinaryTarget = [leftEmoBinaryTarget ; EmoBinaryTarget(z)];
             end
         end
-        
-        % create left subtree
-        for w =1:length(bestAU)
-        	if (bestAU(w) == 0)
-            	leftMatrix = [leftMatrix; originalTree(w,:)]; % check syntax
-                leftEmoBinaryTarget = [leftEmoBinaryTarget; EmoBinaryTarget(w, 1)];
-            end
-        end
-
-        RightEmoTree = struct();
-        if (isempty(rightMatrix))
-            RightEmoTree.class = majorityValue(EmoBinaryTarget);
-        else
-            RightEmoTree = CreateEmoTree(rightEmoBinaryTarget, rightMatrix, originalAUs); % right side recursion
-        end
-        EmoTree.kids(2) = RightEmoTree;
         
         LeftEmoTree = struct();
         if (isempty(leftMatrix))
             LeftEmoTree.class = majorityValue(EmoBinaryTarget);
         else
-            LeftEmoTree = CreateEmoTree(leftEmoBinaryTarget, leftMatrix, originalAUs); % left side recursion
+            LeftEmoTree = CreateEmoTree(leftMatrix, originalAUs, leftEmoBinaryTarget); % left side recursion
         end
-        EmoTree.kids(1) = LeftEmoTree;
+        
+        RightEmoTree = struct();
+        if (isempty(rightMatrix))
+            RightEmoTree.class = majorityValue(EmoBinaryTarget);
+        else
+            RightEmoTree = CreateEmoTree(rightMatrix, originalAUs, rightEmoBinaryTarget); % right side recursion
+        end
+        
+        EmoTree.kids = {LeftEmoTree, RightEmoTree};
         
     end
     %*************** END CASE 3: INTERNAL NODE (NOT LEAF) *******************

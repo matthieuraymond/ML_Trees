@@ -3,7 +3,7 @@ load('cleandata_students.mat');
 originalTree = x;
 originalAUs= [1:45]';
 
-AngerTargets = calBinTarget(1);
+AngerTargets = calBinTarget(1); %Creates a column of 0 and 1, 1 if the emotion is anger
 AngerTree = CreateEmoTree(originalTree, originalAUs, AngerTargets);
 
 originalTree = x;
