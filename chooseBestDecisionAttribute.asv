@@ -1,0 +1,10 @@
+function result = ChooseBestDecisionAttribute(AUsIGs, originalAUs)
+    bestAU = AUsIGs(1);
+    for i = 2:length(AUsIGs)
+        if (AUsIGs(i) > bestAU)
+            bestAU = originalAUs(i);
+            originalAUs(i, :) = [];
+        end
+    end
+    result = struct('bestAU', bestAU, 'originalAUs', originalAUs, bestAU);
+end
