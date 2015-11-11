@@ -1,7 +1,7 @@
 clear;
 
-%load('cleandata_students.mat');
-load('noisydata_students.mat');
+load('cleandata_students.mat');
+%load('noisydata_students.mat');
 
 originalX = x;
 originalY = y;
