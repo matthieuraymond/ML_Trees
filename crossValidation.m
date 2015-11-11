@@ -31,7 +31,7 @@ for k = 1:trainingSize
     nbError = 0;
     
     for i = 1 : (1 + ending - starting)
-        predicted = predict(T, testSet(i,:));
+        predicted = predictLeastPopulated(T, testSet(i,:));
         predictedSet(i,1)=predicted;
         if (predicted ~= testRes(i))
            nbError = nbError + 1; 
@@ -52,4 +52,13 @@ confusionMatrix = confusionMatrix / trainingSize;
 meanRecall = computeMeanRecall(confusionMatrix);
 meanPrecision = computeMeanPrecision(confusionMatrix);
 meanF1 = CalcF(meanPrecision,meanRecall);
+
+for i = 1: size(confusionMatrix,1)
+    TP = confusionMatrix(i,i);
+    FN = sum(confusionMatrix(i,:)) - TP;
+    FP = sum(confusionMatrix(:,i)) - TP;
+    classRecalls(i,1) = calculateRecall(TP, FN);
+    classPrecisions(i,1) = calculatePrecision(TP, FP);
+end
+
 100*errSum/9

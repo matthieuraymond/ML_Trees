@@ -1,4 +1,4 @@
-function [ res ] = predictShortestBranch( T, AU)
+function [ res ] = predictFirstMaximum( T, AU)
     %PREDICT predicts which class a row a AU belongs to, based on 6 trees
     %given in order
     % in T.
@@ -9,25 +9,15 @@ function [ res ] = predictShortestBranch( T, AU)
        [classification(i,1), classification(i,2)] = goThroughTreeDepth(T(i), AU); 
     end
 
-    % First attempt : taking the maximum
-    % Snd: the max closest from the root
+    % Taking the first maximum encountered
 
     m = classification(1,1);
-    d = classification(1,2);
     res = 1;
     
     for i = 2:6
        if classification(i,1) > m
             m = classification(i,1);
-            d = classification(i,2);
             res = i;
-       elseif classification(i,1) == m
-           if classification(i,2) < d
-                m = classification(i,1);
-                d = classification(i,2);
-                res = i;
-           end
        end
     end
 end
-
