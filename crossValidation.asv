@@ -28,25 +28,21 @@ for k = 1:trainingSize
     T(5) = CreateEmoTree(x, [1:45]', calBinTarget(y, 5));
     T(6) = CreateEmoTree(x, [1:45]', calBinTarget(y, 6));
     S(1) = sum(calBinTarget(y, 1));
-    S(2) = sum(calBinTarget(y, 2));
-    S(3) = sum(calBinTarget(y, 3));
-    S(5) = sum(calBinTarget(y, 4));
-    S(6) = sum(calBinTarget(y, 6));
+    S(2) = sum(calBinTarget(y, 1));
     nbError = 0;
-    dec = 0;
     
     for i = 1 : (1 + ending - starting)
         %predicted = predictDepth(T, testSet(i,:));
-        predicted = predictPopulation(T, testSet(i,:), S);
+        predicted = predictPopulation(T, testSet(i,:), sum(calBinTarget(y, i)));
         predictedSet(i,1) = predicted;
         if (predicted ~= testRes(i))
-           nbError = nbError + 1;
+           nbError = nbError + 1; 
         end
     end
     
     confusionMatrix = confusionMatrix + buildConfusionMatrix(testRes,predictedSet,6);
     
-    avg = nbError/(1 + ending - starting - dec);
+    avg = nbError/(1 + ending - starting);
     
     errSum = errSum + avg;
     

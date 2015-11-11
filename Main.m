@@ -17,7 +17,7 @@ DrawDecisionTree(AngerTree, 'Anger');
 %DrawDecisionTree(DisgustTree, 'Disgust');
 %DrawDecisionTree(FearTree, 'Fear');
 %DrawDecisionTree(HappinessTree, 'Happiness');
-%DrawDecisionTree(SadnessTree, 'Sadness');
+DrawDecisionTree(SadnessTree, 'Sadness');
 %DrawDecisionTree(SurpriseTree, 'Surprise');
 
 clear('x');
