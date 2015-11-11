@@ -1,4 +1,4 @@
-function [confusionMatrix] = buildConfusionMatrix(actualOutput,predictedOutput)
+function [confusionMatrix] = buildConfusionMatrix(actualOutput,predictedOutput,matrixSize)
 
 %actualOutput: Nx1 vector; predictedOutput: Nx1 vector;
 
@@ -8,7 +8,8 @@ function [confusionMatrix] = buildConfusionMatrix(actualOutput,predictedOutput)
 %confusionMatrix: 6x6 vector;
 actualLabel = 0;
 predictedLabel = 0;
-confusionMatrix = zeros(6);
+rowSum = 0;
+confusionMatrix = zeros(matrixSize);
 N = size(actualOutput,1);
 
     for index = 1:N
@@ -18,6 +19,10 @@ N = size(actualOutput,1);
 
         confusionMatrix(actualLabel,predictedLabel) = confusionMatrix(actualLabel,predictedLabel) + 1;
     end
+    
+    for rowIndex = 1:size(confusionMatrix,1)
+        rowSum = sum(confusionMatrix(rowIndex,:));
+        confusionMatrix(rowIndex, :) = confusionMatrix(rowIndex,:)/rowSum;
+    end
 
 end
-
