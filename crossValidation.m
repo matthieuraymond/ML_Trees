@@ -36,8 +36,9 @@ for k = 1:trainingSize
     dec = 0;
     
     for i = 1 : (1 + ending - starting)
+        predicted = predictRandom(T, testSet(i,:));
         %predicted = predictDepth(T, testSet(i,:));
-        predicted = predictPopulation(T, testSet(i,:), S);
+        %predicted = predictPopulation(T, testSet(i,:), S);
         predictedSet(i,1) = predicted;
         if (predicted ~= testRes(i))
            nbError = nbError + 1;

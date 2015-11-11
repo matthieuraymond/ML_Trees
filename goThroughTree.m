@@ -13,4 +13,3 @@ function [ res, pop ] = goThroughTree( tree, AU )
         [res, pop] = goThroughTree(tree.kids{2}, AU);
     end
 end
-
