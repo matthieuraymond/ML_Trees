@@ -23,3 +23,5 @@ DrawDecisionTree(AngerTree, 'Anger');
 clear('x');
 clear('y');
 %save('trees.mat');
+
+T = [AngerTree, DisgustTree, FearTree, HappinessTree, SadnessTree, SurpriseTree];

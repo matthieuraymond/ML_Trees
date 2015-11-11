@@ -33,11 +33,12 @@ function [EmoTree] = CreateEmoTree(originalTree, originalAUs, EmoBinaryTarget)
     if sum(EmoBinaryTarget) == length(EmoBinaryTarget)
        EmoTree.class = 100;
        EmoTree.kids = [];
-       EmoTree.op = length(EmoBinaryTarget);
+       EmoTree.population = length
+       EmoTree.op = -1;
     elseif sum(EmoBinaryTarget) == 0
        EmoTree.class = 0;
        EmoTree.kids = [];
-       EmoTree.op = length(EmoBinaryTarget);
+       EmoTree.op = -1;
     % ***** END CASE 1: ALL EXAMPLES ARE CLASSIFIED TO THE EMO LABEL ****
     
     
@@ -45,7 +46,7 @@ function [EmoTree] = CreateEmoTree(originalTree, originalAUs, EmoBinaryTarget)
     elseif isempty(originalAUs)
        EmoTree.class = majorityValue(EmoBinaryTarget);
        EmoTree.kids = [];
-       EmoTree.op = length(EmoBinaryTarget);
+       EmoTree.op = -1;
     %*************** END CASE 2: TREE IS EMPTY => MUST BE LEAF **********
    
     
@@ -85,7 +86,7 @@ function [EmoTree] = CreateEmoTree(originalTree, originalAUs, EmoBinaryTarget)
         if (isempty(leftMatrix))
             LeftEmoTree.class = majorityValue(EmoBinaryTarget);
             LeftEmoTree.kids = [];
-            LeftEmoTree.op = length(EmoBinaryTarget);
+            LeftEmoTree.op = -1;
         else
             LeftEmoTree = CreateEmoTree(leftMatrix, originalAUs, leftEmoBinaryTarget); % left side recursion
         end
@@ -94,7 +95,7 @@ function [EmoTree] = CreateEmoTree(originalTree, originalAUs, EmoBinaryTarget)
         if (isempty(rightMatrix))
             RightEmoTree.class = majorityValue(EmoBinaryTarget);
             RightEmoTree.kids = [];
-            RightEmoTree.op = length(EmoBinaryTarget);
+            RightEmoTree.op = -1;
         else
             RightEmoTree = CreateEmoTree(rightMatrix, originalAUs, rightEmoBinaryTarget); % right side recursion
         end

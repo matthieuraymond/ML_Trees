@@ -22,7 +22,7 @@ function [ res ] = predict( T, AU)
             d = classification(i,2);
             res = i;
        elseif classification(i,1) == m
-           if classification(i,2) > d
+           if classification(i,2) < d
                 m = classification(i,1);
                 d = classification(i,2);
                 res = i;
