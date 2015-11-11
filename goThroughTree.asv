@@ -6,9 +6,9 @@ function [ res ] = goThroughTree( tree, AU )
     end
     
     if (AU(tree.op) == 0)
-        res = goThroughTree(tree.kids{1}, AU);
+        goThroughTree(tree.kids(0), AU)
     else
-        res = goThroughTree(tree.kids{2}, AU);
+        goThroughTree(tree.kids{1}, AU)
     end
 end
 

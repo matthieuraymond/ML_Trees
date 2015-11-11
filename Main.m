@@ -1,27 +1,25 @@
+clear;
 load('cleandata_students.mat');
 
-originalTree = x;
-originalAUs= [1:45]';
+AngerTree = CreateEmoTree(x, [1:45]', calBinTarget(y, 1));
 
-AngerTargets = calBinTarget(1); %Creates a column of 0 and 1, 1 if the emotion is anger
-AngerTree = CreateEmoTree(originalTree, originalAUs, AngerTargets);
+DisgustTree = CreateEmoTree(x, [1:45]', calBinTarget(y, 2));
 
-originalTree = x;
-DisgustTargets = calBinTarget(2);
-DisgustTree = CreateEmoTree(originalTree, originalAUs, DisgustTargets);
+FearTree = CreateEmoTree(x, [1:45]', calBinTarget(y, 3));
 
-originalTree = x;
-FearTargets = calBinTarget(3);
-FearTree = CreateEmoTree(originalTree, originalAUs, FearTargets);
+HappinessTree = CreateEmoTree(x, [1:45]', calBinTarget(y, 4));
 
-originalTree = x;
-HappinessTargets = calBinTarget(4);
-HappinessTree = CreateEmoTree(originalTree, originalAUs, HappinessTargets);
+SadnessTree = CreateEmoTree(x, [1:45]', calBinTarget(y, 5));
 
-originalTree = x;
-SadnessTargets = calBinTarget(5);
-SadnessTree = CreateEmoTree(originalTree, originalAUs, SadnessTargets);
+SurpriseTree = CreateEmoTree(x, [1:45]', calBinTarget(y, 6));
 
-originalTree = x;
-SurpriseTargets = calBinTarget(6);
-SurpriseTree = CreateEmoTree(originalTree, originalAUs, SurpriseTargets);
+DrawDecisionTree(AngerTree, 'Anger');
+%DrawDecisionTree(DisgustTree, 'Disgust');
+%DrawDecisionTree(FearTree, 'Fear');
+%DrawDecisionTree(HappinessTree, 'Happiness');
+%DrawDecisionTree(SadnessTree, 'Sadness');
+%DrawDecisionTree(SurpriseTree, 'Surprise');
+
+clear('x');
+clear('y');
+%save('trees.mat');

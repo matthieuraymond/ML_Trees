@@ -12,11 +12,26 @@ function [EmoTree] = CreateEmoTree(originalTree, originalAUs, EmoBinaryTarget)
     %leaf = struct('class', 0);
     %leaf.kids = cell(0);
     
+    %clean useless action units
+    z = 1;
+    height = length(EmoBinaryTarget);
+    if height > 1
+        while (z <= length(originalAUs))
+            s = sum(originalTree);
+            if (s == height | s == 0)
+                originalAUs(z) = []; %deleteing the AU from indexes
+                originalTree(:, z) = []; %deleting the AU from data
+            else
+                z = z + 1;
+            end
+        end
+    end
+    
     EmoTree = struct();
     
     % ****** CASE 1: ALL EXAMPLES ARE CLASSIFIED TO THE EMO LABEL *******
     if sum(EmoBinaryTarget) == length(EmoBinaryTarget)
-       EmoTree.class = 1;
+       EmoTree.class = 100;
        EmoTree.kids = [];
        EmoTree.op = -1;
     elseif sum(EmoBinaryTarget) == 0
@@ -36,7 +51,7 @@ function [EmoTree] = CreateEmoTree(originalTree, originalAUs, EmoBinaryTarget)
     
     %*************** CASE 3: INTERNAL NODE (NOT LEAF) *******************
     %choosing best attribute based on info gain     
-    else
+    else        
         %calculate best decision attribute   
         bestAUIndex = chooseBestDecisionAttribute(originalTree, originalAUs, EmoBinaryTarget);
         EmoTree.op = originalAUs(bestAUIndex);
@@ -44,6 +59,10 @@ function [EmoTree] = CreateEmoTree(originalTree, originalAUs, EmoBinaryTarget)
         %delete datas for the recursion
         originalAUs(bestAUIndex) = []; %deleteing the AU from indexes
         originalTree(:, bestAUIndex) = []; %deleting the AU from data
+        
+        if (EmoTree.op == 2)
+            'stop';
+        end
         
         % create subtrees (split)
         leftMatrix = [];
