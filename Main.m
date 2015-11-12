@@ -13,12 +13,12 @@ SadnessTree = CreateEmoTree(x, [1:45]', calBinTarget(y, 5));
 
 SurpriseTree = CreateEmoTree(x, [1:45]', calBinTarget(y, 6));
 
-%DrawDecisionTree(AngerTree, 'Anger');
-%DrawDecisionTree(DisgustTree, 'Disgust');
-%DrawDecisionTree(FearTree, 'Fear');
-%DrawDecisionTree(HappinessTree, 'Happiness');
-%DrawDecisionTree(SadnessTree, 'Sadness');
-%DrawDecisionTree(SurpriseTree, 'Surprise');
+DrawDecisionTree(AngerTree, 'Anger');
+DrawDecisionTree(DisgustTree, 'Disgust');
+DrawDecisionTree(FearTree, 'Fear');
+DrawDecisionTree(HappinessTree, 'Happiness');
+DrawDecisionTree(SadnessTree, 'Sadness');
+DrawDecisionTree(SurpriseTree, 'Surprise');
 
 T = [AngerTree, DisgustTree, FearTree, HappinessTree, SadnessTree, SurpriseTree];
 

@@ -12,8 +12,8 @@ errSum = 0;
 confusionMatrix = zeros(6);
 
 for k = 1:trainingSize
-    starting = floor(k * n / 10);
-    ending = floor((k+1) * n / 10);
+    starting = floor(k * n / (trainingSize + 1));
+    ending = floor((k+1) * n / (trainingSize + 1));
     testSet = x(starting:ending,:);
     testRes = y(starting:ending);
     x(starting:ending,:) = [];
@@ -67,4 +67,4 @@ for i = 1: size(confusionMatrix,1)
     classRates(i,1) = calculateClassificationRate(TP, TN, sum(confusionMatrix(:)));
 end
 
-100*errSum/9
+100*errSum/trainingSize
