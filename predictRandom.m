@@ -6,7 +6,7 @@ function [ res ] = predictRandom( T, AU)
     classification = zeros(6, 1); %value, depth
 
     for i = 1:6
-       classification(i) = goThroughTreeDepth(T(i), AU); 
+       classification(i) = goThroughTree(T(i), AU); 
     end
 
     m = classification(1);
