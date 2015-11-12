@@ -1,4 +1,4 @@
-function [ res ] = goThroughTreePopulated( tree, AU )
+function [ res ] = goThroughTree( tree, AU )
 %GOTHROUGHTREE takes a row of AU values and process it through a tree
 %Returns the class and the depth
     if (isempty(tree.kids))
