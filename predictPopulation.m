@@ -1,4 +1,4 @@
-function [ res ] = predictPopulation( T, AU, S0, S1 )
+function [ res ] = predictPopulation( T, AU)
     %PREDICT predicts which class a row a AU belongs to, based on 6 trees
     %given in order
     % in T.
@@ -14,32 +14,37 @@ function [ res ] = predictPopulation( T, AU, S0, S1 )
     
     clashBetween0 = sum(classification(:,1)) == 0;
     
-    if (clashBetween0)
-        normaliser = S0;
-    else
-        normaliser = S1;
-    end
 
     m = classification(1,1);
-    d = classification(1,2)/normaliser(1);
+    if clashBetween0
+        d = classification(1,2)/(T(1).nbExamples - T(1).nbOnes);
+    else
+        d = classification(1,2)/T(1).nbOnes;
+    end
     res = 1;
     
     for i = 2:6
        if classification(i,1) > m
             m = classification(i,1);
-            d = classification(i,2)/normaliser(i);
+            if clashBetween0
+                d = classification(1,2)/(T(i).nbExamples - T(i).nbOnes);
+            else
+                d = classification(1,2)/T(i).nbOnes;
+            end
             res = i;
        elseif classification(i,1) == m
            if clashBetween0 %take the less populated
-               if classification(i,2)/normaliser(i) < d
+               di = classification(i,2)/(T(i).nbExamples - T(i).nbOnes);
+               if  di < d
                     m = classification(i,1);
-                    d = classification(i,2);
+                    d = di;
                     res = i;
                end
            else
-               if classification(i,2)/normaliser(i) > d
+               di = classification(i,2)/T(i).nbOnes;
+               if di > d
                     m = classification(i,1);
-                    d = classification(i,2);
+                    d = di;
                     res = i;
                end
            end

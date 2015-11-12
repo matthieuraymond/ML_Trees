@@ -20,39 +20,19 @@ for k = 1:trainingSize
     y(starting:ending,:) = [];
     predictedSize = length(testRes);
     predictedSet=[predictedSize:1];
-    lenY = length(y);
     
-    bin1 = calBinTarget(y, 1);
-    bin2 = calBinTarget(y, 2);
-    bin3 = calBinTarget(y, 3);
-    bin4 = calBinTarget(y, 4);
-    bin5 = calBinTarget(y, 5);
-    bin6 = calBinTarget(y, 6);
-    
-    T(1) = CreateEmoTree(x, [1:45]', bin1);
-    T(2) = CreateEmoTree(x, [1:45]', bin2);
-    T(3) = CreateEmoTree(x, [1:45]', bin3);
-    T(4) = CreateEmoTree(x, [1:45]', bin4);
-    T(5) = CreateEmoTree(x, [1:45]', bin5);
-    T(6) = CreateEmoTree(x, [1:45]', bin6);
-    S1(1) = sum(bin1);
-    S1(2) = sum(bin2);
-    S1(3) = sum(bin3);
-    S1(4) = sum(bin4);
-    S1(5) = sum(bin5);
-    S1(6) = sum(bin6);
-    S0(1) = lenY - S1(1);
-    S0(2) = lenY - S1(2);
-    S0(3) = lenY - S1(3);
-    S0(4) = lenY - S1(4);
-    S0(5) = lenY - S1(5);
-    S0(6) = lenY - S1(6);
+    T(1) = CreateEmoTree(x, [1:45]', calBinTarget(y, 1));
+    T(2) = CreateEmoTree(x, [1:45]', calBinTarget(y, 2));
+    T(3) = CreateEmoTree(x, [1:45]', calBinTarget(y, 3));
+    T(4) = CreateEmoTree(x, [1:45]', calBinTarget(y, 4));
+    T(5) = CreateEmoTree(x, [1:45]', calBinTarget(y, 5));
+    T(6) = CreateEmoTree(x, [1:45]', calBinTarget(y, 6));
     nbError = 0;
     
     for i = 1 : (1 + ending - starting)
         %predicted = predictRandom(T, testSet(i,:));
         %predicted = predictDepth(T, testSet(i,:));
-        predicted = predictPopulation(T, testSet(i,:), S0, S1);
+        predicted = predictPopulation(T, testSet(i,:));
         
         predictedSet(i,1) = predicted;
         if (predicted ~= testRes(i))

@@ -3,7 +3,9 @@ function [ res, pop ] = goThroughTreePopulated( tree, AU )
 %Returns the class and the depth
     if (isempty(tree.kids))
        res = tree.class;
-       pop = tree.nbExamples;
+       if res == 0
+           pop = tr
+       pop = tree.op;
        return
     end
     
